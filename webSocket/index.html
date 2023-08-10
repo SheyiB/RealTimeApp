@@ -14,19 +14,19 @@
 </head>
 <body>
     <h1> Bids </h1>
-    <div class="bid-list">
+    <ul class="bid-list">
 
         
-    </div>
+    </ul>
 
     <form class="make-bid">
         <label>Name</label>
-        <input type="text"> <br>
+        <input type="text" id="name"> <br>
 
         <label>Bid</label>
-        <input type="number"> <br>
+        <input type="number" id="bid-value"> <br>
 
-        <button type="submit" onclick=submitBid()> Bid</button>
+        <button type="button" onclick=submitBid()> Bid</button>
         
 
     </form>
@@ -35,13 +35,20 @@
 
         const socket = new WebSocket('ws://localhost:8080');
 
-        socket.onmessage = ({data}) => {
+        socket.onmessage = ({data}, e) => {
             console.log('New Bid!')
-            document.querySelector('.bid-list').append(data)
+            const node = document.createElement("li")
+            const textnode = document.createTextNode(data)
+            node.appendChild(textnode)
+            document.querySelector('.bid-list').appendChild(node)
         }
 
-        function submitBid(){
-            socket.send('HAHAHA!!!')
+        function submitBid(e){
+            const name = document.getElementById('name').value
+            const bidValue = document.getElementById('bid-value').value
+            console.log(name, bidValue)
+            socket.send(`${name} ${bidValue}`)
+            
         }
     </script>
 </body>
