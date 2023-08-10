@@ -4,9 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .make-bid{
+            display: flex;
+            flex-direction: column;
+            width: 30vw;
+        }
+    </style>
 </head>
 <body>
     <h1> Bids </h1>
-    <span class="bid-list"></span>
+    <div class="bid-list">
+
+        
+    </div>
+
+    <form class="make-bid">
+        <label>Name</label>
+        <input type="text"> <br>
+
+        <label>Bid</label>
+        <input type="number"> <br>
+
+        <button type="submit" onclick=submitBid()> Bid</button>
+        
+
+    </form>
+
+    <script>
+
+        const socket = new WebSocket('ws://localhost:8080');
+
+        socket.onmessage = ({data}) => {
+            console.log('New Bid!')
+            document.querySelector('.bid-list').append(data)
+        }
+
+        function submitBid(){
+            socket.send('HAHAHA!!!')
+        }
+    </script>
 </body>
 </html>
